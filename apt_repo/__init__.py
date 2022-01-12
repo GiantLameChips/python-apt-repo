@@ -4,8 +4,7 @@ import lzma
 import os
 import posixpath
 import re
-import urllib.error
-import urllib.request as request
+import requests
 
 
 def __download_raw(url):
@@ -15,8 +14,7 @@ def __download_raw(url):
     # Arguments
     url (str): URL to file
     """
-    return request.urlopen(url).read()
-
+    return requests.get(url)
 
 def _download(url):
     """
@@ -48,11 +46,11 @@ def _download_compressed(base_url):
         url = base_url + suffix
 
         try:
-            req = request.urlopen(url)
-        except urllib.error.URLError:
-            continue
-
-        return method(req.read()).decode('utf-8')
+            req = requests.get(url)
+#        except urllib.error.URLError:
+#            continue
+#
+#        return method(req.read()).decode('utf-8')
 
 
 def _get_value(content, key):
